@@ -19,22 +19,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button Initd = (Button)findViewById(R.id.btnInitd);
         TextView instat = (TextView)findViewById(R.id.tvInitd);
-        java.io.File inscript = new File("/system/etc/init.d/01fastcharge");
+        File inscript = new File("/system/etc/init.d/01fastcharge");
         TextView status = (TextView) findViewById(R.id.txvStatus);
         EditText ac = (EditText)findViewById(R.id.etCha);
         EditText usb = (EditText)findViewById(R.id.etUSB);
         try{
-            java.lang.Process p = Runtime.getRuntime().exec("su");
+            Process p = Runtime.getRuntime().exec("su");
             DataOutputStream outs = new DataOutputStream(p.getOutputStream());
             outs.writeBytes(sysrw + "\n");
         }catch(Exception e){
             e.printStackTrace();
         }
-        java.io.File file = new File("/sys/kernel/charge_levels/quick_charge_enable");
+        File file = new File("/sys/kernel/charge_levels/quick_charge_enable");
         if (inscript.exists()){instat.setText("init.d script found :D");}
         if (!inscript.exists()){
-            instat.setText("init.d script not found, press the button below to add");
-            Initd.setVisibility(View.VISIBLE);
+			File infol = new File("/etc/init.d");
+			if (infol.exists()){if (infol.isDirectory()){
+					if (!new File("/system/etc/init.d/01fastcharge").exists()){
+						instat.setText("init.d script not found, press the button below to add");
+						Initd.setVisibility(View.VISIBLE);
+					}else{
+						instat.setText("init.d support not found :(");
+					}
+			}}
+			
+            
         }
         if (file.exists()) {
             try {
@@ -94,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         TextView status = (TextView) findViewById(R.id.txvStatus);
         EditText ac = (EditText)findViewById(R.id.etCha);
         EditText usb = (EditText)findViewById(R.id.etUSB);
-        java.io.File file = new File("/sys/kernel/charge_levels/quick_charge_enable");
+        File file = new File("/sys/kernel/charge_levels/quick_charge_enable");
         if (file.exists()) {
             try {
                 FileInputStream fstream = new FileInputStream(file);
@@ -148,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         String fcstatus = status.getText().toString();
         if(fcstatus.equals("Fast Charge available, but disabled")){
             try{
-                java.lang.Process p = Runtime.getRuntime().exec("su");
+                Process p = Runtime.getRuntime().exec("su");
                 DataOutputStream outs = new DataOutputStream(p.getOutputStream());
                 String cmd = "rm /sys/kernel/charge_levels/quick_charge_enable";
                 outs.writeBytes(cmd + "\n");
@@ -162,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(fcstatus.equals("Fast Charge available, and enabled")){
             try{
-                java.lang.Process p = Runtime.getRuntime().exec("su");
+                Process p = Runtime.getRuntime().exec("su");
                 DataOutputStream outs = new DataOutputStream(p.getOutputStream());
                 String cmd = "rm /sys/kernel/charge_levels/quick_charge_enable";
                 outs.writeBytes(cmd + "\n");
@@ -181,14 +190,14 @@ public class MainActivity extends AppCompatActivity {
         String accurrent = new String(ac.getText().toString());
         String usbcurrent = new String(usb.getText().toString());
         try{
-            java.lang.Process p = Runtime.getRuntime().exec("su");
+            Process p = Runtime.getRuntime().exec("su");
             DataOutputStream outs = new DataOutputStream(p.getOutputStream());
             outs.writeBytes(sysrw + "\n");
         }catch(Exception e){
             e.printStackTrace();
         }
         try{
-            java.lang.Process p = Runtime.getRuntime().exec("su");
+            Process p = Runtime.getRuntime().exec("su");
             DataOutputStream outs = new DataOutputStream(p.getOutputStream());
             String cmd = "rm /sys/kernel/charge_levels/charge_level_ac";
             outs.writeBytes(cmd + "\n");
@@ -198,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         try{
-            java.lang.Process p = Runtime.getRuntime().exec("su");
+            Process p = Runtime.getRuntime().exec("su");
             DataOutputStream outs = new DataOutputStream(p.getOutputStream());
             String cmd = "rm /sys/kernel/charge_levels/charge_level_usb";
             outs.writeBytes(cmd + "\n");
@@ -209,21 +218,21 @@ public class MainActivity extends AppCompatActivity {
         }
         String initdscript = "echo -e " + "\"" + "#!/system/bin/sh\n#call userinit.sh if present in /data/local\necho " + accurrent + " > /sys/kernel/charge_levels/charge_level_ac\necho " + usbcurrent + " > /sys/kernel/charge_levels/charge_level_usb" + "\" >> /system/etc/init.d/01fastcharge";
         try{
-            java.lang.Process p = Runtime.getRuntime().exec("su");
+            Process p = Runtime.getRuntime().exec("su");
             DataOutputStream outs = new DataOutputStream(p.getOutputStream());
             outs.writeBytes(sysrw + "\n");
         }catch(Exception e){
             e.printStackTrace();
         }
         try{
-            java.lang.Process p = Runtime.getRuntime().exec("su");
+            Process p = Runtime.getRuntime().exec("su");
             DataOutputStream outs = new DataOutputStream(p.getOutputStream());
             outs.writeBytes("rm /system/etc/init.d/01fastcharge" + "\n");
         }catch(Exception e){
             e.printStackTrace();
         }
         try{
-            java.lang.Process p = Runtime.getRuntime().exec("su");
+            Process p = Runtime.getRuntime().exec("su");
             DataOutputStream outs = new DataOutputStream(p.getOutputStream());
             String cmd = initdscript;
             outs.writeBytes(cmd + "\n");
@@ -255,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 			e.printStackTrace();
 		}
         try{
-            java.lang.Process p = Runtime.getRuntime().exec("su");
+            Process p = Runtime.getRuntime().exec("su");
             DataOutputStream outs = new DataOutputStream(p.getOutputStream());
             String cmd = "mv /sdcard/01fastcharge /system/etc/init.d/01fastcharge";
             outs.writeBytes(cmd + "\n");
