@@ -40,15 +40,15 @@ public class MainFragment extends Fragment
             e.printStackTrace();
         }
         File file = new File("/sys/kernel/charge_levels/quick_charge_enable");
-        if (inscript.exists()){instat.setText("init.d script found :D");}
+        if (inscript.exists()){instat.setText(getString(R.string.initd_found));}
         if (!inscript.exists()){
 			File infol = new File("/etc/init.d");
 			if (infol.exists()){if (infol.isDirectory()){
 					if (!new File("/system/etc/init.d/01fastcharge").exists()){
-						instat.setText("init.d script not found, press the button below to add");
+						instat.setText(getString(R.string.initd_notfound));
 						Initd.setVisibility(View.VISIBLE);
 					}else{
-						instat.setText("init.d support not found :(");
+						instat.setText(getString(R.string.initd_unavailable));
 					}
 				}}
 
@@ -60,10 +60,10 @@ public class MainFragment extends Fragment
                 BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
                 String strLine = br.readLine();
                 if(strLine.equals("0")){
-                    status.setText("Fast Charge available, but disabled");
+                    status.setText(getString(R.string.fc_disabled));
                 }
                 if(strLine.equals("1")){
-                    status.setText("Fast Charge available, and enabled");
+                    status.setText(getString(R.string.fc_enabled));
                 }
                 Button btnToggle = (Button)v.findViewById(R.id.btnToggle);
                 btnToggle.setVisibility(View.VISIBLE);
@@ -73,7 +73,7 @@ public class MainFragment extends Fragment
             }
         }
         if (!file.exists()) {
-            status.setText("Fast Charge unavailable, your kernel probably doesnt support it");
+            status.setText(getString(R.string.fc_unavailable));
             Button btnToggle = (Button)v.findViewById(R.id.btnToggle);
             btnToggle.setVisibility(View.INVISIBLE);
         }
@@ -104,7 +104,7 @@ public class MainFragment extends Fragment
             }
         }
         if (!file.exists()) {
-            Toast.makeText((Context)getActivity(),"ERR: USB Charge Level not found",Toast.LENGTH_SHORT).show();
+            Toast.makeText((Context)getActivity(),getString(R.string.usb_notfound),Toast.LENGTH_SHORT).show();
         }
 		
 		final Button btnCheck = (Button)v.findViewById(R.id.btnCheck);
@@ -123,10 +123,10 @@ public class MainFragment extends Fragment
 							BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 							String strLine = br.readLine();
 							if(strLine.equals("0")){
-								status.setText("Fast Charge available, but disabled");
+								status.setText(getString(R.string.fc_disabled));
 							}
 							if(strLine.equals("1")){
-								status.setText("Fast Charge available, and enabled");
+								status.setText(getString(R.string.fc_enabled));
 							}
 							Button btnToggle = (Button)v.findViewById(R.id.btnToggle);
 							btnToggle.setVisibility(View.VISIBLE);
@@ -136,7 +136,7 @@ public class MainFragment extends Fragment
 						}
 					}
 					if (!file.exists()) {
-						status.setText("Fast Charge unavailable, your kernel probably doesnt support it");
+						status.setText(getString(R.string.fc_unavailable));
 						Button btnToggle = (Button)v.findViewById(R.id.btnToggle);
 						btnToggle.setVisibility(View.INVISIBLE);
 					}
@@ -173,7 +173,7 @@ public class MainFragment extends Fragment
 				{
 					TextView status = (TextView) v.findViewById(R.id.txvStatus);
 					String fcstatus = status.getText().toString();
-					if(fcstatus.equals("Fast Charge available, but disabled")){
+					if(fcstatus.equals(getString(R.string.fc_disabled))){
 						try{
 							Process p = Runtime.getRuntime().exec("su");
 							DataOutputStream outs = new DataOutputStream(p.getOutputStream());
@@ -181,13 +181,13 @@ public class MainFragment extends Fragment
 							outs.writeBytes(cmd + "\n");
 							cmd = "echo 1 > /sys/kernel/charge_levels/quick_charge_enable";
 							outs.writeBytes(cmd + "\n");
-							status.setText("Fast Charge available, and enabled");
+							status.setText(getString(R.string.fc_enabled));
 						}catch(Exception e){
 							e.printStackTrace();
 						}
 					}
 
-					if(fcstatus.equals("Fast Charge available, and enabled")){
+					if(fcstatus.equals(getString(R.string.fc_enabled))){
 						try{
 							Process p = Runtime.getRuntime().exec("su");
 							DataOutputStream outs = new DataOutputStream(p.getOutputStream());
@@ -195,7 +195,7 @@ public class MainFragment extends Fragment
 							outs.writeBytes(cmd + "\n");
 							cmd = "echo 0 > /sys/kernel/charge_levels/quick_charge_enable";
 							outs.writeBytes(cmd + "\n");
-							status.setText("Fast Charge available, but disabled");
+							status.setText(getString(R.string.fc_disabled));
 						}catch(Exception e){
 							e.printStackTrace();
 						}
@@ -303,7 +303,7 @@ public class MainFragment extends Fragment
 					}catch(Exception e){
 						e.printStackTrace();
 					}
-					instat.setText("init.d script has been written, it is now recommended to reboot");
+					instat.setText(getString(R.string.initd_written));
 				}
 		});
 		

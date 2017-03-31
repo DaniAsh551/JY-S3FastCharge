@@ -11,10 +11,16 @@ import java.io.*;
 import java.lang.Process;
 import android.content.*;
 import android.support.v4.widget.*;
+import android.view.View.*;
+import android.text.*;
+import android.support.v4.view.*;
 
 public class MainActivity extends AppCompatActivity {
 
 	public static Context context;
+	public static EditText etChaB;
+	public static EditText etUSBB;
+	public static DrawerLayout layout_main;
 	
 	android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
 	
@@ -26,18 +32,23 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.flDrawer,DrawerFragment.newInstance()).addToBackStack(null).commit();
 		getSupportFragmentManager().beginTransaction().replace(R.id.flMain,MainFragment.newInstance()).addToBackStack(null).commit();
 		
+		
+		etChaB = (EditText)findViewById(R.id.etChaB);
+		etUSBB = (EditText)findViewById(R.id.etUSBB);
+		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		final DrawerLayout layout_main = (DrawerLayout)findViewById(R.id.activity_main);
-
+		layout_main = (DrawerLayout)findViewById(R.id.activity_main);
+		layout_main.setDrawerListener(mDrawerToggle);
+		
 		mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,layout_main, R.string.abc_action_bar_home_description,R.string.abc_action_bar_home_subtitle_description_format){
 			public void onDrawerClosed(View view){
-				getSupportActionBar().setTitle("JY-S3 Fast Charge");
+				getSupportActionBar().setTitle(getString(R.string.app_name)); //JY-S3 Fast Charge
 				supportInvalidateOptionsMenu();
 			}
 
 			public void onDrawerOpened(View view){
-				getSupportActionBar().setTitle("No init.d?");
+				getSupportActionBar().setTitle(getString(R.string.app_title_drawer_open)); //No init.d?
 				supportInvalidateOptionsMenu();
 			}
 
@@ -45,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		layout_main.setDrawerListener(mDrawerToggle);
+		
     }
 
 	@Override
@@ -54,5 +66,24 @@ public class MainActivity extends AppCompatActivity {
 		mDrawerToggle.syncState();
 	}
 	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+        }
+        
 
+        return super.onOptionsItemSelected(item);
+    }
+
+	@Override
+	public void onBackPressed()
+	{
+		if (layout_main.isDrawerOpen(GravityCompat.START)){
+			layout_main.closeDrawers();
+		}else{
+			finish();
+		}
+		
+	}
 }

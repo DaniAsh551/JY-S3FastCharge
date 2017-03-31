@@ -76,15 +76,15 @@ public class DrawerFragment extends Fragment
 
 						File file = new File("/sdcard/.FCsetonBoot.sh");
 						if (file.exists() == true){
-							Toast.makeText(context,"Saved",0).show();
+							Toast.makeText(context,getString(R.string.saved),0).show();
 							
-						}else{Toast.makeText(context,"File could not be saved",0).show();}
+						}else{Toast.makeText(context,getString(R.string.cannot_save_file),0).show();}
 					}
 					if (!toggle.isChecked()){
 						File f = new File("/sdcard/.FCsetonBoot.sh");
 						f.delete();
 						if (f.exists() == false){
-							Toast.makeText(context,"Deactivated",0).show();
+							Toast.makeText(context,getString(R.string.deactivated),0).show();
 							
 						}
 					}

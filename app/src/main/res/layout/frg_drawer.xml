@@ -9,26 +9,26 @@
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="This set of settings are only for ROMs without init.d support"
+		android:text="@string/for_no_initd"
 		android:id="@+id/textView4"/>
 
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Check the box below to enable"
+		android:text="@string/check_the_box_below"
 		android:id="@+id/textView5"/>
 
 	<CheckBox
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Set Values on Boot"
+		android:text="@string/set_values_on_boot"
 		android:id="@+id/cbBootToggle"/>
 
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:text="set the charging current values below:"
+		android:text="@string/set_charging"
 		android:id="@+id/txtLBL1"
 		android:layout_below="@+id/txvStatus"
 		android:layout_alignParentStart="true"
@@ -38,7 +38,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:text="AC Current (Charger) default = 1000"
+		android:text="@string/ac_current"
 		android:id="@+id/textView2"
 		android:layout_below="@+id/txtLBL1"
 		android:layout_alignParentStart="true"/>
@@ -58,7 +58,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:text="USB Current default = 500"
+		android:text="@string/usb_current"
 		android:id="@+id/textView3"
 		android:layout_centerVertical="true"
 		android:layout_alignParentStart="true"/>
@@ -78,10 +78,9 @@
 	<Button
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Save Settings"
+		android:text="@string/save_settings"
 		android:id="@+id/btnSaveSettings"
-		android:layout_gravity="center_horizontal"
-		android:onClick="onbtnSaveClick"/>
+		android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>
 
